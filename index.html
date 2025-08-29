@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Dados Node-RED</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Monitoramento de Dados Node-RED</h1>
+        <div class="status-bar">
+            Status da Conexão: <span id="connection-status" class="disconnected">Desconectado</span>
+        </div>
+        <div class="data-log">
+            <h2>Dados Recebidos:</h2>
+            <div id="messages">
+                <!-- Mensagens do WebSocket serão adicionadas aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #34495e;
+    margin-top: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.status-bar {
+    background-color: #ecf0f1;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #555;
+}
+
+.status-bar span {
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-left: 10px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.status-bar .disconnected {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.status-bar .connecting {
+    background-color: #f39c12;
+    color: white;
+}
+
+.status-bar .connected {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.status-bar .error {
+    background-color: #c0392b;
+    color: white;
+}
+
+.data-log {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 15px;
+    max-height: 500px; /* Limita a altura do log */
+    overflow-y: auto; /* Adiciona scroll se o conteúdo exceder */
+}
+
+.data-log pre {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    white-space: pre-wrap; /* Quebra linhas longas */
+    word-break: break-all; /* Quebra palavras longas */
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+    font-size: 0.9em;
+    line-height: 1.4;
+    color: #333;
+}
+
+.data-log .system-message {
+    background-color: #e9f7ef; /* Light green for system messages */
+    border-color: #d0e9d0;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.data-log .error-message {
+    background-color: #fbe9e9; /* Light red for error messages */
+    border-color: #f5c6cb;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.data-log .data-message {
+    background-color: #f0f8ff; /* Light blue for data messages */
+    border-color: #d9edf7;
+    color: #007bff;
+}
