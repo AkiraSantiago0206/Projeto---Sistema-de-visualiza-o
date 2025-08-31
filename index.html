@@ -13,7 +13,6 @@
             Status da Conexão: <span id="connection-status" class="disconnected">Desconectado</span>
         </div>
 
-        <!-- NOVO: Seção de Gerenciamento de Servidores -->
         <div class="server-management">
             <h2>Servidores WebSocket</h2>
             <div class="input-group">
@@ -27,19 +26,15 @@
             </div>
         </div>
 
-        <!-- Botão de Conectar/Desconectar (permanece na página principal) -->
         <button id="toggle-connection-btn" class="btn-connect">Conectar</button>
 
-        <div class="data-log">
-            <h2>Dados Recebidos:</h2>
+        <div class="data-log-header">
+            <h2>Log de Dados</h2>
             <button id="clear-log-btn" class="btn-clear-log">Limpar Log</button>
-            <div id="messages">
-                <!-- Mensagens do WebSocket serão adicionadas aqui -->
-            </div>
         </div>
+        <div id="messages" class="data-log"></div>
     </div>
 
-    <!-- Estrutura do Modal (reutilizado para adicionar/editar servidores) -->
     <div id="server-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -59,9 +54,8 @@
         </div>
     </div>
 
-    <!-- Contêiner para mensagens de Toast -->
     <div id="toast-container"></div>
 
-    <script src="script.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
