@@ -1,20 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
     const connectionStatus = document.getElementById('connection-status');
     const messagesDiv = document.getElementById('messages');
+    const toggleConnectionBtn = document.getElementById('toggle-connection-btn');
 
-    // URL do WebSocket do seu Node-RED
-    // Certifique-se de que o IP e a porta correspondem à sua instalação do Node-RED.
-    // Se estiver rodando localmente, geralmente é ws://localhost:1880
-    // O caminho /ws/dashboard é o que você configurou no nó 'websocket-listener' do Node-RED.
-    const websocketUrl = 'ws://localhost:1880/ws/dashboard'; 
-    let ws;
-    let reconnectInterval;
+    const websocketUrl = 'ws://localhost:1880/ws/dashboard';
+    let ws = null; // Inicializa ws como null para começar desconectado
+    let reconnectInterval = null;
+    let isManuallyDisconnected = false; // Flag para controlar a reconexão automática
+
+    // Função para atualizar o texto e estado do botão
+    function updateButtonState() {
+        if (!ws || ws.readyState === WebSocket.CLOSED) {
+            toggleConnectionBtn.textContent = 'Conectar';
+            toggleConnectionBtn.className = 'btn-connect';
+            toggleConnectionBtn.disabled = false; // Habilita para conectar
+        } else if (ws.readyState === WebSocket.OPEN) {
+            toggleConnectionBtn.textContent = 'Desconectar';
+            toggleConnectionBtn.className = 'btn-disconnect';
+            toggleConnectionBtn.disabled = false; // Habilita para desconectar
+        } else if (ws.readyState === WebSocket.CONNECTING) {
+            toggleConnectionBtn.textContent = 'Conectando...';
+            toggleConnectionBtn.className = 'btn-connect'; // Mantém a classe visual de conectar
+            toggleConnectionBtn.disabled = true; // Desabilita enquanto está conectando
+        }
+    }
 
     function connectWebSocket() {
+        // Limpa qualquer intervalo de reconexão pendente antes de tentar uma nova conexão
+        if (reconnectInterval) {
+            clearInterval(reconnectInterval);
+            reconnectInterval = null;
+        }
+
+        // Se já estiver conectado ou conectando, não faz nada
         if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
             console.log('WebSocket já está conectado ou conectando.');
             return;
         }
+
+        isManuallyDisconnected = false; // O usuário está iniciando uma conexão, então não é mais uma desconexão manual
+        updateButtonState(); // Atualiza o botão para "Conectando..." e desabilitado
 
         console.log(`Tentando conectar ao WebSocket em: ${websocketUrl}`);
         connectionStatus.textContent = 'Conectando...';
@@ -27,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
             connectionStatus.textContent = 'Conectado';
             connectionStatus.className = 'connected';
             clearInterval(reconnectInterval); // Para de tentar reconectar se a conexão for bem-sucedida
+            reconnectInterval = null;
             addMessageToLog('Conexão estabelecida com sucesso.', 'system-message');
+            updateButtonState(); // Atualiza o botão para "Desconectar"
         };
 
         ws.onmessage = (event) => {
@@ -46,12 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
             connectionStatus.textContent = 'Desconectado';
             connectionStatus.className = 'disconnected';
             addMessageToLog(`Conexão fechada. Código: ${event.code}, Razão: ${event.reason}`, 'system-message');
-            
-            // Tenta reconectar após um tempo
-            if (!reconnectInterval) {
+            updateButtonState(); // Atualiza o botão para "Conectar" e habilitado
+
+            // Tenta reconectar automaticamente APENAS se não foi desconectado manualmente
+            // e se não há um intervalo de reconexão já ativo
+            if (!isManuallyDisconnected && !reconnectInterval) {
                 reconnectInterval = setInterval(() => {
-                    console.log('Tentando reconectar...');
-                    connectWebSocket();
+                    console.log('Tentando reconectar automaticamente...');
+                    connectWebSocket(); // Chama connectWebSocket para re-iniciar a conexão
                 }, 5000); // Tenta reconectar a cada 5 segundos
             }
         };
@@ -61,22 +90,45 @@ document.addEventListener('DOMContentLoaded', () => {
             connectionStatus.textContent = 'Erro';
             connectionStatus.className = 'error';
             addMessageToLog('Ocorreu um erro na conexão WebSocket.', 'error-message');
-            ws.close(); // Força o fechamento para acionar o onclose e a reconexão
+            // O ws.onclose será chamado após o onerror, então não é necessário chamar ws.close() aqui
+            updateButtonState(); // Atualiza o estado do botão
         };
     }
 
+    function disconnectWebSocket() {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            console.log('Desconectando WebSocket manualmente...');
+            isManuallyDisconnected = true; // Define a flag para evitar reconexão automática
+            clearInterval(reconnectInterval); // Limpa qualquer intervalo de reconexão automática
+            reconnectInterval = null;
+            ws.close(); // Fecha a conexão
+            addMessageToLog('Desconectado manualmente.', 'system-message');
+            updateButtonState(); // Atualiza o botão para "Conectar" e habilitado
+        }
+    }
+
+    // Listener para o botão de toggle
+    toggleConnectionBtn.addEventListener('click', () => {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            disconnectWebSocket();
+        } else {
+            // Se não estiver aberto, tenta conectar. Isso lida com a conexão inicial e a reconexão após desconexão manual.
+            connectWebSocket();
+        }
+    });
+
     function addMessageToLog(message, className = '') {
-        const messageElement = document.createElement('pre'); // Usar <pre> para formatar JSON
+        const messageElement = document.createElement('pre');
         messageElement.textContent = message;
         messageElement.className = className;
-        messagesDiv.prepend(messageElement); // Adiciona a mensagem mais recente no topo
+        messagesDiv.prepend(messageElement);
 
-        // Limita o número de mensagens para evitar sobrecarga da DOM
         if (messagesDiv.children.length > 50) {
             messagesDiv.removeChild(messagesDiv.lastChild);
         }
     }
 
-    // Inicia a conexão quando a página é carregada
-    connectWebSocket();
+    // NOVO: Remove a chamada inicial a connectWebSocket().
+    // Apenas inicializa o estado do botão para "Conectar" e habilitado.
+    updateButtonState();
 });

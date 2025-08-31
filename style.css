@@ -72,13 +72,51 @@ h2 {
     color: white;
 }
 
+/* NOVO: Estilos para o botão */
+#toggle-connection-btn {
+    display: block; /* Ocupa a largura total */
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    margin-bottom: 20px; /* Espaçamento abaixo do botão */
+}
+
+#toggle-connection-btn.btn-connect {
+    background-color: #3498db; /* Azul para conectar */
+    color: white;
+}
+
+#toggle-connection-btn.btn-connect:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+#toggle-connection-btn.btn-disconnect {
+    background-color: #e74c3c; /* Vermelho para desconectar */
+    color: white;
+}
+
+#toggle-connection-btn.btn-disconnect:hover:not(:disabled) {
+    background-color: #c0392b;
+}
+
+#toggle-connection-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
 .data-log {
     background-color: #fdfdfd;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
     padding: 15px;
-    max-height: 500px; /* Limita a altura do log */
-    overflow-y: auto; /* Adiciona scroll se o conteúdo exceder */
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .data-log pre {
@@ -87,8 +125,8 @@ h2 {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
-    white-space: pre-wrap; /* Quebra linhas longas */
-    word-break: break-all; /* Quebra palavras longas */
+    white-space: pre-wrap;
+    word-break: break-all;
     font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
     font-size: 0.9em;
     line-height: 1.4;
@@ -96,21 +134,21 @@ h2 {
 }
 
 .data-log .system-message {
-    background-color: #e9f7ef; /* Light green for system messages */
+    background-color: #e9f7ef;
     border-color: #d0e9d0;
     color: #28a745;
     font-weight: bold;
 }
 
 .data-log .error-message {
-    background-color: #fbe9e9; /* Light red for error messages */
+    background-color: #fbe9e9;
     border-color: #f5c6cb;
     color: #dc3545;
     font-weight: bold;
 }
 
 .data-log .data-message {
-    background-color: #f0f8ff; /* Light blue for data messages */
+    background-color: #f0f8ff;
     border-color: #d9edf7;
     color: #007bff;
 }
