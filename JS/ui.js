@@ -5,6 +5,10 @@ export const DOMElements = {
     connectionStatus: document.getElementById('connection-status'),
     messagesDiv: document.getElementById('messages'),
     clearLogBtn: document.getElementById('clear-log-btn'),
+    exportLogBtn: document.getElementById('export-log-btn'),
+    exportFormatSelect: document.getElementById('export-format-select'), // Adicionado
+    filterInput: document.getElementById('filter-input'),
+    searchBtn: document.getElementById('search-btn'),
     toastContainer: document.getElementById('toast-container'),
     serverSelect: document.getElementById('server-select'),
     addServerBtn: document.getElementById('add-server-btn'),
@@ -57,7 +61,6 @@ export function updateButtonState(connectionState, hasSelectedServer) {
     DOMElements.editServerBtn.disabled = !hasSelectedServer;
     DOMElements.deleteServerBtn.disabled = !hasSelectedServer;
 }
-
 
 export function addMessageToLog(message, className = '') {
     const messageContainer = document.createElement('div');
@@ -150,4 +153,45 @@ export function toggleConfirmDeleteModal(show, serverName = '') {
 export function hideAllModals() {
     DOMElements.serverModal.style.display = 'none';
     DOMElements.confirmDeleteModal.style.display = 'none';
+}
+
+export function getLogData() {
+    const logEntries = Array.from(DOMElements.messagesDiv.children);
+    const logData = logEntries.map(entry => {
+        if (entry.classList.contains('data-message')) {
+            const data = {};
+            const items = entry.querySelectorAll('.data-list li');
+            items.forEach(item => {
+                const keyElement = item.querySelector('strong');
+                const valueElement = item.querySelector('span');
+                if (keyElement && valueElement) {
+                    const key = keyElement.textContent.replace(':', '').trim();
+                    const value = valueElement.textContent;
+                    data[key] = value;
+                }
+            });
+            return data;
+        }
+        return null;
+    }).filter(item => item !== null);
+
+    return logData.reverse();
+}
+
+export function filterLog(searchText) {
+    const messages = DOMElements.messagesDiv.querySelectorAll('.message-entry');
+    const lowerCaseSearchText = searchText.toLowerCase();
+    
+    if (lowerCaseSearchText === '') {
+        messages.forEach(message => message.style.display = '');
+    } else {
+        messages.forEach(message => {
+            const textContent = message.textContent.toLowerCase();
+            if (textContent.includes(lowerCaseSearchText)) {
+                message.style.display = '';
+            } else {
+                message.style.display = 'none';
+            }
+        });
+    }
 }

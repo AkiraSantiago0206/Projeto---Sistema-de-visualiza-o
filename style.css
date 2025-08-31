@@ -367,7 +367,6 @@ h2 {
     font-size: 0.9em;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.1s ease;
-    margin-left: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -375,6 +374,95 @@ h2 {
     background-color: #7f8c8d;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.data-log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; 
+    gap: 15px;
+}
+
+.data-log-header h2 {
+    margin: 0;
+    flex-basis: 100%;
+}
+
+.search-group {
+    display: flex;
+    flex-grow: 1;
+}
+
+#filter-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+}
+
+#filter-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.btn-search {
+    padding: 10px 15px;
+    border: 1px solid #3498db;
+    background-color: #3498db;
+    color: white;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-search:hover {
+    background-color: #2980b9;
+}
+
+/* Novo grupo de exportação */
+.export-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#export-format-select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.9em;
+    background-color: white;
+}
+
+.btn-export-log {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-export-log:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.data-log-header > div {
+    display: flex;
+    align-items: center;
 }
 
 .data-log {

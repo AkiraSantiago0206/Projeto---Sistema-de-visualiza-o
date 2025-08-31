@@ -49,7 +49,6 @@ function saveServer() {
         return;
     }
 
-    // Lógica de validação de URL duplicada
     if (state.isEditingServer) {
         const isUrlDuplicate = state.servers.some(
             (s, index) => s.url === url && index !== state.activeServerId
@@ -61,7 +60,7 @@ function saveServer() {
         state.servers[state.activeServerId] = { name, url };
         ui.showToast(`Servidor "${name}" atualizado.`, 'success');
 
-    } else { // Cenário de adicionar novo servidor
+    } else {
         const isUrlDuplicate = state.servers.some(s => s.url === url);
         if (isUrlDuplicate) {
             ui.showToast('Esta URL já existe na sua lista de servidores.', 'error');
@@ -111,6 +110,68 @@ function connectToActiveServer() {
     }
 }
 
+function exportData(format) {
+    const data = ui.getLogData();
+    if (data.length === 0) {
+        ui.showToast('O log de dados está vazio!', 'info');
+        return;
+    }
+
+    let fileContent;
+    let mimeType;
+    let fileExtension;
+
+    if (format === 'json') {
+        fileContent = JSON.stringify(data, null, 2);
+        mimeType = 'application/json';
+        fileExtension = 'json';
+    } else if (format === 'csv') {
+        const csvContent = convertToCSV(data);
+        fileContent = csvContent;
+        mimeType = 'text/csv';
+        fileExtension = 'csv';
+    } else {
+        ui.showToast('Formato de exportação inválido.', 'error');
+        return;
+    }
+
+    const blob = new Blob([fileContent], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `log-dados-${new Date().toISOString().slice(0, 10)}.${fileExtension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    ui.showToast(`Log de dados exportado para ${fileExtension.toUpperCase()}!`, 'success');
+}
+
+function convertToCSV(data) {
+    if (!data || data.length === 0) {
+        return '';
+    }
+
+    const allKeys = new Set();
+    data.forEach(item => {
+        Object.keys(item).forEach(key => allKeys.add(key));
+    });
+
+    const headers = Array.from(allKeys);
+    const csvRows = [];
+    csvRows.push(headers.join(';'));
+
+    data.forEach(item => {
+        const row = headers.map(header => {
+            const value = item[header] !== undefined ? item[header] : '';
+            return `"${String(value).replace(/"/g, '""')}"`;
+        });
+        csvRows.push(row.join(';'));
+    });
+
+    return csvRows.join('\n');
+}
+
 // --- Configuração e Inicialização ---
 
 function setupEventListeners() {
@@ -129,6 +190,24 @@ function setupEventListeners() {
         ui.addMessageToLog('Log de mensagens limpo.', 'system-message');
         ui.showToast('Log limpo!', 'info');
     });
+    
+    // Novo event listener para o botão de exportar
+    ui.DOMElements.exportLogBtn.addEventListener('click', () => {
+        const format = ui.DOMElements.exportFormatSelect.value;
+        exportData(format);
+    });
+    
+    ui.DOMElements.searchBtn.addEventListener('click', () => {
+        const searchText = ui.DOMElements.filterInput.value;
+        ui.filterLog(searchText);
+    });
+
+    ui.DOMElements.filterInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const searchText = ui.DOMElements.filterInput.value;
+            ui.filterLog(searchText);
+        }
+    });
 
     ui.DOMElements.serverSelect.addEventListener('change', (e) => handleServerSelection(e.target.value));
     
@@ -140,7 +219,6 @@ function setupEventListeners() {
     ui.DOMElements.editServerBtn.addEventListener('click', () => {
         state.isEditingServer = true;
         const server = state.servers[state.activeServerId];
-        // Adicionada a verificação para garantir que o servidor existe antes de editar
         if (server) {
             ui.toggleServerModal(true, true, server);
         } else {
@@ -197,9 +275,13 @@ function initialize() {
             ui.updateConnectionStatus('Conectado');
             ui.addMessageToLog(`Conectado a ${server.name}.`, 'system-message');
             ui.showToast('Conectado com sucesso!', 'success');
+            ui.filterLog(ui.DOMElements.filterInput.value);
             updateUI();
         },
-        onMessage: (data) => ui.addMessageToLog(data, 'data-message'),
+        onMessage: (data) => {
+            ui.addMessageToLog(data, 'data-message');
+            ui.filterLog(ui.DOMElements.filterInput.value);
+        },
         onClose: (event) => {
             ui.updateConnectionStatus('Desconectado');
             ui.addMessageToLog(`Conexão fechada. Código: ${event.code}`, 'system-message');

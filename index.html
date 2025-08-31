@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Dados Node-RED</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -30,7 +31,20 @@
 
         <div class="data-log-header">
             <h2>Log de Dados</h2>
-            <button id="clear-log-btn" class="btn-clear-log">Limpar Log</button>
+            <div class="search-group">
+                <input type="text" id="filter-input" placeholder="Filtrar por nome ou valor...">
+                <button id="search-btn" class="btn-search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="export-group">
+                <select id="export-format-select">
+                    <option value="json">JSON</option>
+                    <option value="csv">CSV</option>
+                </select>
+                <button id="export-log-btn" class="btn-export-log">Exportar</button>
+            </div>
+            <div>
+                <button id="clear-log-btn" class="btn-clear-log">Limpar Log</button>
+            </div>
         </div>
         <div id="messages" class="data-log"></div>
     </div>
