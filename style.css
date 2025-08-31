@@ -6,8 +6,8 @@ body {
     color: #333;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+    align-items: flex-start; /* Alinha o conteúdo ao topo do contêiner */
+    min-height: 100vh; /* Garante que o body ocupe toda a altura da viewport */
 }
 
 .container {
@@ -17,7 +17,7 @@ body {
     padding: 30px;
     width: 100%;
     max-width: 800px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
 }
 
 h1 {
@@ -31,6 +31,9 @@ h2 {
     margin-top: 20px;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+    display: flex; /* Para alinhar o botão Limpar Log */
+    justify-content: space-between; /* Para alinhar o botão Limpar Log */
+    align-items: center; /* Para alinhar o botão Limpar Log */
 }
 
 .status-bar {
@@ -52,29 +55,50 @@ h2 {
     text-align: center;
 }
 
+/* Cores para os diferentes status de conexão */
 .status-bar .disconnected {
-    background-color: #e74c3c;
+    background-color: #e74c3c; /* Vermelho */
     color: white;
 }
 
 .status-bar .connecting {
-    background-color: #f39c12;
+    background-color: #f39c12; /* Laranja */
     color: white;
 }
 
 .status-bar .connected {
-    background-color: #2ecc71;
+    background-color: #2ecc71; /* Verde */
     color: white;
 }
 
 .status-bar .error {
-    background-color: #c0392b;
+    background-color: #c0392b; /* Vermelho escuro */
     color: white;
 }
 
-/* Estilos para os botões */
+/* Estilo para o botão de abrir configurações */
+#open-settings-btn {
+    display: block; /* Ocupa a largura total */
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px; /* Espaçamento entre este botão e o de conectar/desconectar */
+    background-color: #6c757d; /* Cinza */
+    color: white;
+}
+
+#open-settings-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Estilos para o botão de conectar/desconectar (AGORA NA PÁGINA PRINCIPAL) */
 #toggle-connection-btn {
-    display: block;
+    display: block; /* Ocupa a largura total */
     width: 100%;
     padding: 12px 20px;
     font-size: 1.1em;
@@ -83,11 +107,12 @@ h2 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, opacity 0.3s ease;
-    margin-bottom: 10px;
+    margin-bottom: 20px; /* Espaçamento abaixo do botão antes do log */
 }
 
+/* Estilo para o estado "Conectar" */
 #toggle-connection-btn.btn-connect {
-    background-color: #3498db;
+    background-color: #3498db; /* Azul */
     color: white;
 }
 
@@ -95,8 +120,9 @@ h2 {
     background-color: #2980b9;
 }
 
+/* Estilo para o estado "Desconectar" */
 #toggle-connection-btn.btn-disconnect {
-    background-color: #e74c3c;
+    background-color: #e74c3c; /* Vermelho */
     color: white;
 }
 
@@ -104,11 +130,130 @@ h2 {
     background-color: #c0392b;
 }
 
+/* Estilo para o botão desabilitado (ex: durante a conexão) */
 #toggle-connection-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    opacity: 0.6; /* Torna o botão semi-transparente */
+    cursor: not-allowed; /* Altera o cursor para indicar que não é clicável */
 }
 
+
+/* Estilos do Modal (mantendo a estrutura, mas adaptado ao novo conteúdo) */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed; /* Fixado na tela */
+    z-index: 1; /* Acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Permite scroll se o conteúdo for grande */
+    background-color: rgba(0,0,0,0.4); /* Fundo escuro semi-transparente */
+    display: flex; /* Usa flexbox para centralizar o conteúdo */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto; /* Centraliza o modal horizontalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    position: relative; /* Para posicionar o botão de fechar */
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: none;
+    padding-bottom: 0;
+    color: #34495e;
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    float: right; /* Flutua para a direita dentro do modal */
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute; /* Posiciona absolutamente em relação ao modal-content */
+    top: 10px;
+    right: 15px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-group input[type="text"] {
+    width: calc(100% - 22px); /* Largura total menos padding e border */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.btn-save {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #27ae60; /* Verde */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: #229a55;
+}
+
+/* O hr não é mais necessário no modal com a remoção do botão de toggle */
+/* Removido o hr, pois não faz mais sentido com o botão de toggle fora do modal */
+/* hr {
+    border: 0;
+    height: 1px;
+    background: #eee;
+    margin: 20px 0;
+} */
+
+/* Estilos para o botão Limpar Log */
+.btn-clear-log {
+    background-color: #95a5a6; /* Cinza azulado */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    margin-left: auto; /* Empurra para a direita */
+}
+
+.btn-clear-log:hover {
+    background-color: #7f8c8d;
+}
 
 .data-log {
     background-color: #fdfdfd;
@@ -119,7 +264,6 @@ h2 {
     overflow-y: auto;
 }
 
-/* NOVO: Estilos para as entradas de mensagem */
 .message-entry {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
@@ -133,35 +277,33 @@ h2 {
 }
 
 .message-entry pre {
-    white-space: pre-wrap; /* Quebra linhas longas */
-    word-break: break-all; /* Quebra palavras longas */
-    margin: 0; /* Remove margem padrão do pre */
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 0;
 }
 
-/* Estilos específicos para tipos de mensagem */
 .message-entry.system-message {
-    background-color: #e9f7ef; /* Light green for system messages */
+    background-color: #e9f7ef;
     border-color: #d0e9d0;
     color: #28a745;
     font-weight: bold;
 }
 
 .message-entry.error-message {
-    background-color: #fbe9e9; /* Light red for error messages */
+    background-color: #fbe9e9;
     border-color: #f5c6cb;
     color: #dc3545;
     font-weight: bold;
 }
 
 .message-entry.data-message {
-    background-color: #f0f8ff; /* Light blue for data messages */
+    background-color: #f0f8ff;
     border-color: #d9edf7;
     color: #007bff;
 }
 
-/* NOVO: Estilos para a lista de dados */
 .data-list {
-    list-style: none; /* Remove marcadores de lista */
+    list-style: none;
     padding: 0;
     margin: 0;
 }
@@ -169,7 +311,7 @@ h2 {
 .data-list li {
     margin-bottom: 5px;
     padding-left: 10px;
-    border-left: 3px solid #aed6f1; /* Pequena barra lateral para cada item */
+    border-left: 3px solid #aed6f1;
 }
 
 .data-list li:last-child {
@@ -177,18 +319,57 @@ h2 {
 }
 
 .data-list strong {
-    color: #34495e; /* Cor mais escura para os rótulos */
+    color: #34495e;
     display: inline-block;
-    min-width: 90px; /* Garante alinhamento para os rótulos */
+    min-width: 90px;
 }
 
 .data-list .data-value {
-    color: #0056b3; /* Cor para os valores dos dados */
+    color: #0056b3;
     font-weight: normal;
 }
 
 .data-list .timestamp-value {
-    color: #6c757d; /* Cor para o timestamp */
+    color: #6c757d;
     font-weight: normal;
     font-style: italic;
+}
+
+/* Estilos para o contêiner de Toast */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: #333;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    min-width: 250px;
+    text-align: center;
+}
+
+.toast.hide {
+    opacity: 0;
+}
+
+.toast.success {
+    background-color: #28a745; /* Verde */
+}
+
+.toast.error {
+    background-color: #dc3545; /* Vermelho */
+}
+
+.toast.info {
+    background-color: #17a2b8; /* Azul claro */
 }

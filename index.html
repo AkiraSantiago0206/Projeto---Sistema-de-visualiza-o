@@ -12,16 +12,36 @@
         <div class="status-bar">
             Status da Conexão: <span id="connection-status" class="disconnected">Desconectado</span>
         </div>
-        <!-- NOVO: Botão de Conexão/Desconexão -->
-        <button id="toggle-connection-btn" class="btn-disconnect">Desconectar</button>
+        <!-- Botão para abrir o modal de configurações de URL -->
+        <button id="open-settings-btn" class="btn-open-settings">Configurações de Conexão</button>
+        <!-- NOVO: Botão de Conectar/Desconectar agora na página principal para acesso imediato -->
+        <button id="toggle-connection-btn" class="btn-connect">Conectar</button>
 
         <div class="data-log">
             <h2>Dados Recebidos:</h2>
+            <button id="clear-log-btn" class="btn-clear-log">Limpar Log</button>
             <div id="messages">
                 <!-- Mensagens do WebSocket serão adicionadas aqui -->
             </div>
         </div>
     </div>
+
+    <!-- Estrutura do Modal (agora dedicado SOMENTE às configurações da URL do WebSocket) -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Configurações de Conexão</h2>
+            <div class="input-group">
+                <label for="websocket-url">URL do WebSocket:</label>
+                <input type="text" id="websocket-url" placeholder="Ex: ws://localhost:1880/ws/dashboard">
+            </div>
+            <button id="save-settings-btn" class="btn-save">Salvar Configurações</button>
+            <!-- REMOVIDO: O botão toggle-connection-btn não está mais aqui, pois foi movido para a página principal -->
+        </div>
+    </div>
+
+    <!-- Contêiner para mensagens de Toast, fornecendo feedback não intrusivo ao usuário -->
+    <div id="toast-container"></div>
 
     <script src="script.js"></script>
 </body>
