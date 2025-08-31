@@ -72,9 +72,9 @@ h2 {
     color: white;
 }
 
-/* NOVO: Estilos para o botão */
+/* Estilos para os botões */
 #toggle-connection-btn {
-    display: block; /* Ocupa a largura total */
+    display: block;
     width: 100%;
     padding: 12px 20px;
     font-size: 1.1em;
@@ -83,11 +83,11 @@ h2 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, opacity 0.3s ease;
-    margin-bottom: 20px; /* Espaçamento abaixo do botão */
+    margin-bottom: 10px;
 }
 
 #toggle-connection-btn.btn-connect {
-    background-color: #3498db; /* Azul para conectar */
+    background-color: #3498db;
     color: white;
 }
 
@@ -96,7 +96,7 @@ h2 {
 }
 
 #toggle-connection-btn.btn-disconnect {
-    background-color: #e74c3c; /* Vermelho para desconectar */
+    background-color: #e74c3c;
     color: white;
 }
 
@@ -119,36 +119,76 @@ h2 {
     overflow-y: auto;
 }
 
-.data-log pre {
+/* NOVO: Estilos para as entradas de mensagem */
+.message-entry {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
-    white-space: pre-wrap;
-    word-break: break-all;
     font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
     font-size: 0.9em;
     line-height: 1.4;
     color: #333;
 }
 
-.data-log .system-message {
-    background-color: #e9f7ef;
+.message-entry pre {
+    white-space: pre-wrap; /* Quebra linhas longas */
+    word-break: break-all; /* Quebra palavras longas */
+    margin: 0; /* Remove margem padrão do pre */
+}
+
+/* Estilos específicos para tipos de mensagem */
+.message-entry.system-message {
+    background-color: #e9f7ef; /* Light green for system messages */
     border-color: #d0e9d0;
     color: #28a745;
     font-weight: bold;
 }
 
-.data-log .error-message {
-    background-color: #fbe9e9;
+.message-entry.error-message {
+    background-color: #fbe9e9; /* Light red for error messages */
     border-color: #f5c6cb;
     color: #dc3545;
     font-weight: bold;
 }
 
-.data-log .data-message {
-    background-color: #f0f8ff;
+.message-entry.data-message {
+    background-color: #f0f8ff; /* Light blue for data messages */
     border-color: #d9edf7;
     color: #007bff;
+}
+
+/* NOVO: Estilos para a lista de dados */
+.data-list {
+    list-style: none; /* Remove marcadores de lista */
+    padding: 0;
+    margin: 0;
+}
+
+.data-list li {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    border-left: 3px solid #aed6f1; /* Pequena barra lateral para cada item */
+}
+
+.data-list li:last-child {
+    margin-bottom: 0;
+}
+
+.data-list strong {
+    color: #34495e; /* Cor mais escura para os rótulos */
+    display: inline-block;
+    min-width: 90px; /* Garante alinhamento para os rótulos */
+}
+
+.data-list .data-value {
+    color: #0056b3; /* Cor para os valores dos dados */
+    font-weight: normal;
+}
+
+.data-list .timestamp-value {
+    color: #6c757d; /* Cor para o timestamp */
+    font-weight: normal;
+    font-style: italic;
 }

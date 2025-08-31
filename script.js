@@ -2,44 +2,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const connectionStatus = document.getElementById('connection-status');
     const messagesDiv = document.getElementById('messages');
     const toggleConnectionBtn = document.getElementById('toggle-connection-btn');
+    // const sendSignalBtn = document.getElementById('send-signal-btn'); // Removido conforme sua solicitação anterior
 
     const websocketUrl = 'ws://localhost:1880/ws/dashboard';
-    let ws = null; // Inicializa ws como null para começar desconectado
+    let ws = null;
     let reconnectInterval = null;
-    let isManuallyDisconnected = false; // Flag para controlar a reconexão automática
+    let isManuallyDisconnected = false;
 
-    // Função para atualizar o texto e estado do botão
     function updateButtonState() {
         if (!ws || ws.readyState === WebSocket.CLOSED) {
             toggleConnectionBtn.textContent = 'Conectar';
             toggleConnectionBtn.className = 'btn-connect';
-            toggleConnectionBtn.disabled = false; // Habilita para conectar
+            toggleConnectionBtn.disabled = false;
+            // sendSignalBtn.disabled = true; // Removido
         } else if (ws.readyState === WebSocket.OPEN) {
             toggleConnectionBtn.textContent = 'Desconectar';
             toggleConnectionBtn.className = 'btn-disconnect';
-            toggleConnectionBtn.disabled = false; // Habilita para desconectar
+            toggleConnectionBtn.disabled = false;
+            // sendSignalBtn.disabled = false; // Removido
         } else if (ws.readyState === WebSocket.CONNECTING) {
             toggleConnectionBtn.textContent = 'Conectando...';
-            toggleConnectionBtn.className = 'btn-connect'; // Mantém a classe visual de conectar
-            toggleConnectionBtn.disabled = true; // Desabilita enquanto está conectando
+            toggleConnectionBtn.className = 'btn-connect';
+            toggleConnectionBtn.disabled = true;
+            // sendSignalBtn.disabled = true; // Removido
         }
     }
 
     function connectWebSocket() {
-        // Limpa qualquer intervalo de reconexão pendente antes de tentar uma nova conexão
         if (reconnectInterval) {
             clearInterval(reconnectInterval);
             reconnectInterval = null;
         }
 
-        // Se já estiver conectado ou conectando, não faz nada
         if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
             console.log('WebSocket já está conectado ou conectando.');
             return;
         }
 
-        isManuallyDisconnected = false; // O usuário está iniciando uma conexão, então não é mais uma desconexão manual
-        updateButtonState(); // Atualiza o botão para "Conectando..." e desabilitado
+        isManuallyDisconnected = false;
+        updateButtonState();
 
         console.log(`Tentando conectar ao WebSocket em: ${websocketUrl}`);
         connectionStatus.textContent = 'Conectando...';
@@ -51,17 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Conexão WebSocket estabelecida!');
             connectionStatus.textContent = 'Conectado';
             connectionStatus.className = 'connected';
-            clearInterval(reconnectInterval); // Para de tentar reconectar se a conexão for bem-sucedida
+            clearInterval(reconnectInterval);
             reconnectInterval = null;
             addMessageToLog('Conexão estabelecida com sucesso.', 'system-message');
-            updateButtonState(); // Atualiza o botão para "Desconectar"
+            updateButtonState();
         };
 
         ws.onmessage = (event) => {
             console.log('Mensagem recebida:', event.data);
             try {
                 const data = JSON.parse(event.data);
-                addMessageToLog(JSON.stringify(data, null, 2), 'data-message');
+                // Passa o objeto de dados diretamente para a função de log
+                addMessageToLog(data, 'data-message');
             } catch (e) {
                 console.error('Erro ao parsear JSON:', e);
                 addMessageToLog(`Erro ao parsear mensagem: ${event.data}`, 'error-message');
@@ -73,15 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
             connectionStatus.textContent = 'Desconectado';
             connectionStatus.className = 'disconnected';
             addMessageToLog(`Conexão fechada. Código: ${event.code}, Razão: ${event.reason}`, 'system-message');
-            updateButtonState(); // Atualiza o botão para "Conectar" e habilitado
+            updateButtonState();
 
-            // Tenta reconectar automaticamente APENAS se não foi desconectado manualmente
-            // e se não há um intervalo de reconexão já ativo
             if (!isManuallyDisconnected && !reconnectInterval) {
                 reconnectInterval = setInterval(() => {
                     console.log('Tentando reconectar automaticamente...');
-                    connectWebSocket(); // Chama connectWebSocket para re-iniciar a conexão
-                }, 5000); // Tenta reconectar a cada 5 segundos
+                    connectWebSocket();
+                }, 5000);
             }
         };
 
@@ -90,45 +90,77 @@ document.addEventListener('DOMContentLoaded', () => {
             connectionStatus.textContent = 'Erro';
             connectionStatus.className = 'error';
             addMessageToLog('Ocorreu um erro na conexão WebSocket.', 'error-message');
-            // O ws.onclose será chamado após o onerror, então não é necessário chamar ws.close() aqui
-            updateButtonState(); // Atualiza o estado do botão
+            updateButtonState();
         };
     }
 
     function disconnectWebSocket() {
         if (ws && ws.readyState === WebSocket.OPEN) {
             console.log('Desconectando WebSocket manualmente...');
-            isManuallyDisconnected = true; // Define a flag para evitar reconexão automática
-            clearInterval(reconnectInterval); // Limpa qualquer intervalo de reconexão automática
+            isManuallyDisconnected = true;
+            clearInterval(reconnectInterval);
             reconnectInterval = null;
-            ws.close(); // Fecha a conexão
+            ws.close();
             addMessageToLog('Desconectado manualmente.', 'system-message');
-            updateButtonState(); // Atualiza o botão para "Conectar" e habilitado
+            updateButtonState();
         }
     }
 
-    // Listener para o botão de toggle
     toggleConnectionBtn.addEventListener('click', () => {
         if (ws && ws.readyState === WebSocket.OPEN) {
             disconnectWebSocket();
         } else {
-            // Se não estiver aberto, tenta conectar. Isso lida com a conexão inicial e a reconexão após desconexão manual.
             connectWebSocket();
         }
     });
 
+    // Removido o listener do botão de sinal
+
+    // FUNÇÃO addMessageToLog MELHORADA
     function addMessageToLog(message, className = '') {
-        const messageElement = document.createElement('pre');
-        messageElement.textContent = message;
-        messageElement.className = className;
-        messagesDiv.prepend(messageElement);
+        const messageContainer = document.createElement('div');
+        messageContainer.className = `message-entry ${className}`;
+
+        if (className === 'data-message' && typeof message === 'object') {
+            // Se for uma mensagem de dados, formatar como lista
+            const timestamp = message.ts ? new Date(message.ts).toLocaleString() : 'N/A';
+            const dataList = document.createElement('ul');
+            dataList.className = 'data-list';
+
+            // Adiciona o timestamp primeiro
+            const tsItem = document.createElement('li');
+            tsItem.innerHTML = `<strong>Timestamp:</strong> <span class="timestamp-value">${timestamp}</span>`;
+            dataList.appendChild(tsItem);
+
+            // Itera sobre as chaves do objeto (exceto 'ts')
+            for (const key in message) {
+                if (key !== 'ts' && message.hasOwnProperty(key)) {
+                    const listItem = document.createElement('li');
+                    let value = message[key];
+
+                    // Adiciona unidade para temperatura, umidade e nível
+                    if (key === 'temperatura') value += ' °C';
+                    else if (key === 'umidade') value += ' %';
+                    else if (key === 'nivel') value += ' m';
+
+                    listItem.innerHTML = `<strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> <span class="data-value">${value}</span>`;
+                    dataList.appendChild(listItem);
+                }
+            }
+            messageContainer.appendChild(dataList);
+        } else {
+            // Para mensagens de sistema ou erro, usa <pre> para manter formatação
+            const preElement = document.createElement('pre');
+            preElement.textContent = message;
+            messageContainer.appendChild(preElement);
+        }
+
+        messagesDiv.prepend(messageContainer);
 
         if (messagesDiv.children.length > 50) {
             messagesDiv.removeChild(messagesDiv.lastChild);
         }
     }
 
-    // NOVO: Remove a chamada inicial a connectWebSocket().
-    // Apenas inicializa o estado do botão para "Conectar" e habilitado.
     updateButtonState();
 });
