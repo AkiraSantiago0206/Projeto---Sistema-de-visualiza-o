@@ -1,97 +1,97 @@
 body {
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Prioriza fontes modernas e legíveis para interfaces */
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    padding: 30px; /* Adiciona mais espaço ao redor do conteúdo principal */
-    background-color: #f0f2f5; /* Fundo suave e neutro para o corpo da página */
-    color: #333; /* Cor de texto padrão para boa legibilidade */
+    padding: 30px;
+    background-color: #f0f2f5;
+    color: #333;
     display: flex;
-    justify-content: center; /* Centraliza o container horizontalmente */
-    align-items: flex-start; /* Alinha o container ao topo */
-    min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
 .container {
-    background-color: #ffffff; /* Fundo branco para o contêiner principal, criando contraste */
-    border-radius: 12px; /* Cantos mais arredondados para um visual suave e moderno */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Sombra suave e pronunciada para efeito de elevação ("card") */
-    padding: 40px; /* Aumenta o espaçamento interno para o conteúdo */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px;
     width: 100%;
-    max-width: 850px; /* Define uma largura máxima para o contêiner, otimizando a leitura */
-    box-sizing: border-box; /* Inclui padding e border no cálculo da largura/altura */
+    max-width: 850px;
+    box-sizing: border-box;
 }
 
 h1 {
-    color: #2c3e50; /* Cor escura para o título principal, destacando-o */
+    color: #2c3e50;
     text-align: center;
-    margin-bottom: 35px; /* Mais espaçamento abaixo do título */
-    font-size: 2.2em; /* Tamanho maior para o título principal */
-    font-weight: 600; /* Peso da fonte para maior impacto visual */
+    margin-bottom: 35px;
+    font-size: 2.2em;
+    font-weight: 600;
 }
 
 h2 {
-    color: #34495e; /* Cor ligeiramente mais clara para subtítulos */
+    color: #34495e;
     margin-top: 30px;
-    border-bottom: 1px solid #e0e0e0; /* Linha divisória sutil para separar seções */
+    border-bottom: 1px solid #e0e0e0;
     padding-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.5em; /* Tamanho adequado para subtítulos */
-    font-weight: 500; /* Peso da fonte para clareza */
+    font-size: 1.5em;
+    font-weight: 500;
 }
 
 .status-bar {
-    background-color: #eef1f4; /* Fundo claro para a barra de status */
-    padding: 15px 20px; /* Espaçamento interno para os elementos de status */
-    border-radius: 8px; /* Cantos arredondados */
+    background-color: #eef1f4;
+    padding: 15px 20px;
+    border-radius: 8px;
     margin-bottom: 25px;
     font-weight: bold;
     text-align: center;
     color: #555;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra interna sutil para dar profundidade */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .status-bar span {
-    padding: 8px 15px; /* Espaçamento interno para cada status individual */
-    border-radius: 6px; /* Cantos arredondados para os indicadores de status */
+    padding: 8px 15px;
+    border-radius: 6px;
     display: inline-block;
     margin-left: 15px;
-    min-width: 120px; /* Largura mínima para garantir consistência */
+    min-width: 120px;
     text-align: center;
     font-size: 0.95em;
     font-weight: 600;
-    letter-spacing: 0.5px; /* Pequeno espaçamento entre letras para melhor legibilidade */
+    letter-spacing: 0.5px;
 }
 
-/* Cores para os diferentes status de conexão, utilizando uma paleta clara e distinta */
+/* Cores para os diferentes status */
 .status-bar .disconnected {
-    background-color: #e74c3c; /* Vermelho vibrante para desconectado */
+    background-color: #e74c3c;
     color: white;
 }
 
 .status-bar .connecting {
-    background-color: #f39c12; /* Laranja para conectando */
+    background-color: #f39c12;
     color: white;
 }
 
 .status-bar .connected {
-    background-color: #2ecc71; /* Verde para conectado */
+    background-color: #2ecc71;
     color: white;
 }
 
 .status-bar .error {
-    background-color: #c0392b; /* Vermelho escuro para erro */
+    background-color: #c0392b;
     color: white;
 }
 
-/* Estilos para a seção de gerenciamento de servidores, com um visual de "card" */
+/* Estilos para a seção de gerenciamento de servidores */
 .server-management {
-    background-color: #fdfdfd; /* Fundo quase branco para distinção sutil */
-    border: 1px solid #e8e8e8; /* Borda muito clara, quase invisível */
+    background-color: #fdfdfd;
+    border: 1px solid #e8e8e8;
     border-radius: 10px;
     padding: 25px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra sutil para elevação */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .server-management h2 {
@@ -105,62 +105,62 @@ h2 {
 }
 
 .input-group {
-    margin-bottom: 20px; /* Mais espaçamento entre grupos de input */
+    margin-bottom: 20px;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 8px; /* Espaçamento entre label e input */
-    font-weight: 600; /* Texto da label mais encorpado */
+    margin-bottom: 8px;
+    font-weight: 600;
     color: #555;
     font-size: 0.95em;
 }
 
 .input-group input[type="text"],
 .input-group select {
-    width: calc(100% - 24px); /* Ajuste para compensar o padding */
-    padding: 12px; /* Mais padding para inputs e selects */
-    border: 1px solid #dcdcdc; /* Borda clara e discreta */
-    border-radius: 8px; /* Cantos arredondados */
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
     font-size: 1em;
     box-sizing: border-box;
     background-color: white;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transição suave para estados de foco */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-group input[type="text"]:focus,
 .input-group select:focus {
-    border-color: #66afe9; /* Cor de borda no foco */
-    box-shadow: 0 0 0 3px rgba(102, 175, 233, 0.2); /* Sombra de foco para feedback visual */
-    outline: none; /* Remove o outline padrão do navegador */
+    border-color: #66afe9;
+    box-shadow: 0 0 0 3px rgba(102, 175, 233, 0.2);
+    outline: none;
 }
 
 .server-actions {
     display: flex;
     justify-content: space-between;
-    gap: 15px; /* Espaçamento entre os botões de ação */
+    gap: 15px;
     margin-top: 25px;
 }
 
 .server-actions button {
-    flex: 1; /* Permite que os botões ocupem o espaço disponível igualmente */
+    flex: 1;
     padding: 12px 18px;
     font-size: 1em;
     font-weight: 600;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease; /* Adiciona transição para transform */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para botões */
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .server-actions button:hover:not(:disabled) {
-    transform: translateY(-2px); /* Efeito de elevação sutil no hover */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada no hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .btn-add-server {
-    background-color: #3498db; /* Azul para adicionar */
+    background-color: #3498db;
     color: white;
 }
 .btn-add-server:hover:not(:disabled) {
@@ -168,7 +168,7 @@ h2 {
 }
 
 .btn-edit-server {
-    background-color: #f39c12; /* Laranja para editar */
+    background-color: #f39c12;
     color: white;
 }
 .btn-edit-server:hover:not(:disabled) {
@@ -176,7 +176,7 @@ h2 {
 }
 
 .btn-delete-server {
-    background-color: #e74c3c; /* Vermelho para deletar */
+    background-color: #e74c3c;
     color: white;
 }
 .btn-delete-server:hover:not(:disabled) {
@@ -184,35 +184,35 @@ h2 {
 }
 
 .server-actions button:disabled {
-    opacity: 0.5; /* Reduz a opacidade de botões desabilitados */
-    cursor: not-allowed; /* Altera o cursor para indicar que não é clicável */
-    box-shadow: none; /* Remove sombra quando desabilitado */
-    transform: none; /* Remove efeito de elevação quando desabilitado */
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
-/* Estilos para o botão de conectar/desconectar (na página principal) */
+/* Estilos para o botão de conectar/desconectar */
 #toggle-connection-btn {
     display: block;
     width: 100%;
-    padding: 15px 25px; /* Mais padding para um botão de ação primário */
-    font-size: 1.2em; /* Tamanho maior para o texto do botão */
-    font-weight: 700; /* Peso da fonte para destaque */
+    padding: 15px 25px;
+    font-size: 1.2em;
+    font-weight: 700;
     border: none;
-    border-radius: 10px; /* Cantos arredondados */
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
-    margin-bottom: 30px; /* Espaçamento abaixo do botão */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para o botão principal */
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 #toggle-connection-btn:hover:not(:disabled) {
-    transform: translateY(-3px); /* Efeito de elevação mais pronunciado no hover */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra mais forte no hover */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilo para o estado "Conectar" */
 #toggle-connection-btn.btn-connect {
-    background-color: #3498db; /* Azul para conectar */
+    background-color: #3498db;
     color: white;
 }
 
@@ -222,7 +222,7 @@ h2 {
 
 /* Estilo para o estado "Desconectar" */
 #toggle-connection-btn.btn-disconnect {
-    background-color: #e74c3c; /* Vermelho para desconectar */
+    background-color: #e74c3c;
     color: white;
 }
 
@@ -230,7 +230,7 @@ h2 {
     background-color: #c0392b;
 }
 
-/* Estilo para o botão desabilitado (ex: durante a conexão) */
+/* Estilo para o botão desabilitado */
 #toggle-connection-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -238,18 +238,18 @@ h2 {
     transform: none;
 }
 
-/* Estilos do Modal (agora para adicionar/editar servidores) */
+/* Estilos do Modal */
 .modal {
-    display: none; /* Escondido por padrão, controlado via JavaScript */
-    position: fixed; /* Fixado na viewport */
-    z-index: 100; /* Z-index alto para garantir que fique acima de outros elementos */
+    display: none;
+    position: fixed;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Permite scroll se o conteúdo for muito grande */
-    background-color: rgba(0,0,0,0.5); /* Fundo semi-transparente para focar no modal */
-    display: flex; /* Usa flexbox para centralizar o conteúdo do modal */
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -257,18 +257,18 @@ h2 {
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    padding: 30px; /* Mais padding interno */
-    border-radius: 12px; /* Cantos arredondados */
+    padding: 30px;
+    border-radius: 12px;
     width: 90%;
-    max-width: 550px; /* Largura máxima para o modal */
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25); /* Sombra mais forte para destaque */
+    max-width: 550px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
     position: relative;
-    animation: fadeIn 0.3s ease-out; /* Animação de entrada suave */
+    animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); } /* Começa invisível e ligeiramente acima */
-    to { opacity: 1; transform: translateY(0); } /* Termina visível e na posição final */
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .modal-content h2 {
@@ -282,20 +282,26 @@ h2 {
     font-weight: 600;
 }
 
+.modal-content p {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.1em;
+}
+
 .close-button {
-    color: #888; /* Cor suave para o botão de fechar */
-    font-size: 32px; /* Tamanho maior para o ícone de fechar */
+    color: #888;
+    font-size: 32px;
     font-weight: bold;
     position: absolute;
     top: 15px;
     right: 20px;
     cursor: pointer;
-    transition: color 0.3s ease; /* Transição suave para a cor no hover */
+    transition: color 0.3s ease;
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: #333; /* Fica mais escuro no hover/focus */
+    color: #333;
     text-decoration: none;
 }
 
@@ -303,7 +309,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     gap: 15px;
-    margin-top: 30px; /* Espaçamento acima das ações do modal */
+    margin-top: 30px;
 }
 
 .modal-actions button {
@@ -324,7 +330,7 @@ h2 {
 }
 
 .btn-save {
-    background-color: #27ae60; /* Verde para salvar */
+    background-color: #27ae60;
     color: white;
 }
 
@@ -333,12 +339,21 @@ h2 {
 }
 
 .btn-cancel {
-    background-color: #95a5a6; /* Cinza para cancelar */
+    background-color: #95a5a6;
     color: white;
 }
 
 .btn-cancel:hover {
     background-color: #7f8c8d;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
 }
 
 /* Estilos para o botão Limpar Log */
@@ -352,7 +367,7 @@ h2 {
     font-size: 0.9em;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.1s ease;
-    margin-left: auto; /* Alinha o botão à direita */
+    margin-left: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -363,50 +378,50 @@ h2 {
 }
 
 .data-log {
-    background-color: #fdfdfd; /* Fundo quase branco para o log */
+    background-color: #fdfdfd;
     border: 1px solid #e8e8e8;
     border-radius: 10px;
     padding: 20px;
-    max-height: 550px; /* Altura máxima para o log, com scroll */
-    overflow-y: auto; /* Adiciona scroll vertical se o conteúdo exceder a altura */
+    max-height: 550px;
+    overflow-y: auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .message-entry {
-    background-color: #f8f8f8; /* Fundo claro para cada entrada de mensagem */
+    background-color: #f8f8f8;
     border: 1px solid #eee;
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 8px;
-    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace; /* Fonte monoespaçada para logs */
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
     font-size: 0.95em;
     line-height: 1.5;
     color: #333;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Sombra sutil para cada entrada */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .message-entry pre {
-    white-space: pre-wrap; /* Quebra linhas longas */
-    word-break: break-all; /* Quebra palavras para evitar overflow */
+    white-space: pre-wrap;
+    word-break: break-all;
     margin: 0;
 }
 
 .message-entry.system-message {
-    background-color: #e9f7ef; /* Verde claro para mensagens de sistema */
+    background-color: #e9f7ef;
     border-color: #d0e9d0;
     color: #28a745;
     font-weight: bold;
 }
 
 .message-entry.error-message {
-    background-color: #fbe9e9; /* Vermelho claro para mensagens de erro */
+    background-color: #fbe9e9;
     border-color: #f5c6cb;
     color: #dc3545;
     font-weight: bold;
 }
 
 .message-entry.data-message {
-    background-color: #e6f7ff; /* Azul suave para mensagens de dados */
+    background-color: #e6f7ff;
     border-color: #b3e0ff;
     color: #0056b3;
 }
@@ -420,7 +435,7 @@ h2 {
 .data-list li {
     margin-bottom: 8px;
     padding-left: 12px;
-    border-left: 4px solid #87cefa; /* Borda esquerda colorida para itens da lista */
+    border-left: 4px solid #87cefa;
 }
 
 .data-list li:last-child {
@@ -430,7 +445,7 @@ h2 {
 .data-list strong {
     color: #34495e;
     display: inline-block;
-    min-width: 100px; /* Largura mínima para o label */
+    min-width: 100px;
 }
 
 .data-list .data-value {
@@ -445,15 +460,15 @@ h2 {
     font-size: 0.9em;
 }
 
-/* Estilos para o contêiner de Toast (notificações flutuantes) */
+/* Estilos para o contêiner de Toast */
 #toast-container {
     position: fixed;
-    top: 25px; /* Posição superior */
-    right: 25px; /* Posição direita */
-    z-index: 1000; /* Z-index muito alto para sobrepor tudo */
+    top: 25px;
+    right: 25px;
+    z-index: 1000;
     display: flex;
-    flex-direction: column; /* Empilha os toasts verticalmente */
-    gap: 12px; /* Espaçamento entre os toasts */
+    flex-direction: column;
+    gap: 12px;
 }
 
 .toast {
@@ -461,9 +476,9 @@ h2 {
     color: white;
     padding: 15px 25px;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para o toast */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     opacity: 1;
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Transição para ocultar o toast */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
     min-width: 280px;
     text-align: center;
     font-size: 1em;
@@ -472,17 +487,17 @@ h2 {
 
 .toast.hide {
     opacity: 0;
-    transform: translateX(100%); /* Desliza para fora da tela ao esconder */
+    transform: translateX(100%);
 }
 
 .toast.success {
-    background-color: #28a745; /* Verde para sucesso */
+    background-color: #28a745;
 }
 
 .toast.error {
-    background-color: #dc3545; /* Vermelho para erro */
+    background-color: #dc3545;
 }
 
 .toast.info {
-    background-color: #17a2b8; /* Azul claro para informação */
+    background-color: #17a2b8;
 }

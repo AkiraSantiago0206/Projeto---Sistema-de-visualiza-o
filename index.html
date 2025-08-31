@@ -37,7 +37,7 @@
 
     <div id="server-modal" class="modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
+            <span class="close-button" data-modal="server-modal">&times;</span>
             <h2 id="modal-title">Adicionar Novo Servidor</h2>
             <div class="input-group">
                 <label for="server-name-input">Nome do Servidor:</label>
@@ -50,6 +50,18 @@
             <div class="modal-actions">
                 <button id="save-server-details-btn" class="btn-save">Salvar Servidor</button>
                 <button id="cancel-server-details-btn" class="btn-cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="confirm-delete-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="confirm-delete-modal">&times;</span>
+            <h2 id="confirm-title">Confirmação de Exclusão</h2>
+            <p>Tem certeza que deseja excluir o servidor <strong id="server-to-delete-name"></strong>?</p>
+            <div class="modal-actions">
+                <button id="confirm-delete-btn" class="btn-delete">Excluir</button>
+                <button id="cancel-delete-btn" class="btn-cancel">Cancelar</button>
             </div>
         </div>
     </div>

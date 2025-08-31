@@ -10,17 +10,27 @@ export const DOMElements = {
     addServerBtn: document.getElementById('add-server-btn'),
     editServerBtn: document.getElementById('edit-server-btn'),
     deleteServerBtn: document.getElementById('delete-server-btn'),
+    toggleConnectionBtn: document.getElementById('toggle-connection-btn'),
+    
+    // Modal de Adicionar/Editar
     serverModal: document.getElementById('server-modal'),
     modalTitle: document.getElementById('modal-title'),
-    closeButton: document.querySelector('.close-button'),
     serverNameInput: document.getElementById('server-name-input'),
     serverUrlInput: document.getElementById('server-url-input'),
     saveServerDetailsBtn: document.getElementById('save-server-details-btn'),
     cancelServerDetailsBtn: document.getElementById('cancel-server-details-btn'),
-    toggleConnectionBtn: document.getElementById('toggle-connection-btn'),
+    
+    // Modal de Confirmação de Exclusão
+    confirmDeleteModal: document.getElementById('confirm-delete-modal'),
+    serverToDeleteName: document.getElementById('server-to-delete-name'),
+    confirmDeleteBtn: document.getElementById('confirm-delete-btn'),
+    cancelDeleteBtn: document.getElementById('cancel-delete-btn'),
+    
+    // Botões de fechar modais
+    closeButtons: document.querySelectorAll('.close-button'),
 };
 
-export function updateConnectionStatus(status, serverName = '') {
+export function updateConnectionStatus(status) {
     DOMElements.connectionStatus.textContent = status;
     let statusClass = 'disconnected';
     if (status === 'Conectado') statusClass = 'connected';
@@ -126,4 +136,18 @@ export function toggleServerModal(show, isEditing = false, server = null) {
     } else {
         DOMElements.serverModal.style.display = 'none';
     }
+}
+
+export function toggleConfirmDeleteModal(show, serverName = '') {
+    if (show) {
+        DOMElements.serverToDeleteName.textContent = serverName;
+        DOMElements.confirmDeleteModal.style.display = 'flex';
+    } else {
+        DOMElements.confirmDeleteModal.style.display = 'none';
+    }
+}
+
+export function hideAllModals() {
+    DOMElements.serverModal.style.display = 'none';
+    DOMElements.confirmDeleteModal.style.display = 'none';
 }

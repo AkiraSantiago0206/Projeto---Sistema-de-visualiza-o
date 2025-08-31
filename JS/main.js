@@ -23,16 +23,16 @@ function handleServerSelection(idString) {
     const newId = parseInt(idString, 10);
     if (isNaN(newId) || newId < 0 || newId >= state.servers.length) return;
 
-    state.activeServerId = newId;
-    storage.setActiveServerId(newId);
-    ui.addMessageToLog(`Servidor selecionado: ${state.servers[newId].name}`, 'system-message');
+    if (newId !== state.activeServerId) {
+        if (websocket.getConnectionState() === 'open') {
+            websocket.disconnect();
+        }
 
-    if (websocket.getConnectionState() !== 'closed') {
-        websocket.disconnect();
-        // A lógica de reconexão do websocket vai lidar com a nova tentativa de conexão
-        // Mas para ser imediato, podemos forçar.
-        setTimeout(connectToActiveServer, 500);
+        state.activeServerId = newId;
+        storage.setActiveServerId(newId);
+        ui.addMessageToLog(`Servidor selecionado: ${state.servers[newId].name}. Conecte para começar a receber dados.`, 'system-message');
     }
+
     updateUI();
 }
 
@@ -49,10 +49,24 @@ function saveServer() {
         return;
     }
 
+    // Lógica de validação de URL duplicada
     if (state.isEditingServer) {
+        const isUrlDuplicate = state.servers.some(
+            (s, index) => s.url === url && index !== state.activeServerId
+        );
+        if (isUrlDuplicate) {
+            ui.showToast('Esta URL já existe na sua lista de servidores.', 'error');
+            return;
+        }
         state.servers[state.activeServerId] = { name, url };
         ui.showToast(`Servidor "${name}" atualizado.`, 'success');
-    } else {
+
+    } else { // Cenário de adicionar novo servidor
+        const isUrlDuplicate = state.servers.some(s => s.url === url);
+        if (isUrlDuplicate) {
+            ui.showToast('Esta URL já existe na sua lista de servidores.', 'error');
+            return;
+        }
         state.servers.push({ name, url });
         state.activeServerId = state.servers.length - 1;
         ui.showToast(`Servidor "${name}" adicionado.`, 'success');
@@ -64,27 +78,26 @@ function saveServer() {
     updateUI();
 }
 
-function deleteServer() {
+function handleDeleteConfirmation() {
     const server = state.servers[state.activeServerId];
     if (!server) {
         ui.showToast('Nenhum servidor selecionado.', 'info');
         return;
     }
-
-    if (confirm(`Tem certeza que deseja excluir o servidor "${server.name}"?`)) {
-        if (websocket.getConnectionState() !== 'closed') {
-            websocket.disconnect();
-        }
-        
-        state.servers.splice(state.activeServerId, 1);
-        storage.saveServers(state.servers);
-        
-        state.activeServerId = state.servers.length > 0 ? 0 : null;
-        storage.setActiveServerId(state.activeServerId);
-        
-        ui.showToast(`Servidor "${server.name}" excluído.`, 'info');
-        updateUI();
+    
+    if (websocket.getConnectionState() !== 'closed') {
+        websocket.disconnect();
     }
+    
+    state.servers.splice(state.activeServerId, 1);
+    storage.saveServers(state.servers);
+    
+    state.activeServerId = state.servers.length > 0 ? 0 : null;
+    storage.setActiveServerId(state.activeServerId);
+    
+    ui.showToast(`Servidor "${server.name}" excluído.`, 'info');
+    ui.toggleConfirmDeleteModal(false);
+    updateUI();
 }
 
 function connectToActiveServer() {
@@ -119,7 +132,6 @@ function setupEventListeners() {
 
     ui.DOMElements.serverSelect.addEventListener('change', (e) => handleServerSelection(e.target.value));
     
-    // Modal listeners
     ui.DOMElements.addServerBtn.addEventListener('click', () => {
         state.isEditingServer = false;
         ui.toggleServerModal(true, false);
@@ -128,15 +140,43 @@ function setupEventListeners() {
     ui.DOMElements.editServerBtn.addEventListener('click', () => {
         state.isEditingServer = true;
         const server = state.servers[state.activeServerId];
-        ui.toggleServerModal(true, true, server);
+        // Adicionada a verificação para garantir que o servidor existe antes de editar
+        if (server) {
+            ui.toggleServerModal(true, true, server);
+        } else {
+            ui.showToast('Nenhum servidor selecionado para editar.', 'info');
+        }
+    });
+    
+    ui.DOMElements.deleteServerBtn.addEventListener('click', () => {
+        const server = state.servers[state.activeServerId];
+        if (server) {
+            ui.toggleConfirmDeleteModal(true, server.name);
+        }
     });
 
-    ui.DOMElements.deleteServerBtn.addEventListener('click', deleteServer);
     ui.DOMElements.saveServerDetailsBtn.addEventListener('click', saveServer);
     ui.DOMElements.cancelServerDetailsBtn.addEventListener('click', () => ui.toggleServerModal(false));
-    ui.DOMElements.closeButton.addEventListener('click', () => ui.toggleServerModal(false));
+    ui.DOMElements.confirmDeleteBtn.addEventListener('click', handleDeleteConfirmation);
+    ui.DOMElements.cancelDeleteBtn.addEventListener('click', () => ui.toggleConfirmDeleteModal(false));
+    
+    ui.DOMElements.closeButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const modalId = e.target.getAttribute('data-modal');
+            if (modalId === 'server-modal') {
+                ui.toggleServerModal(false);
+            } else if (modalId === 'confirm-delete-modal') {
+                ui.toggleConfirmDeleteModal(false);
+            }
+        });
+    });
+    
     window.addEventListener('click', (e) => {
-        if (e.target === ui.DOMElements.serverModal) ui.toggleServerModal(false);
+        if (e.target === ui.DOMElements.serverModal) {
+            ui.toggleServerModal(false);
+        } else if (e.target === ui.DOMElements.confirmDeleteModal) {
+            ui.toggleConfirmDeleteModal(false);
+        }
     });
 }
 
@@ -144,11 +184,12 @@ function initialize() {
     state.servers = storage.getServers();
     state.activeServerId = storage.getActiveServerId();
 
-    // Validação: se o ID salvo é inválido, reseta
     if (state.activeServerId !== null && !state.servers[state.activeServerId]) {
         state.activeServerId = state.servers.length > 0 ? 0 : null;
         storage.setActiveServerId(state.activeServerId);
     }
+    
+    ui.hideAllModals();
     
     websocket.configure({
         onOpen: () => {
@@ -176,5 +217,4 @@ function initialize() {
     updateUI();
 }
 
-// Inicia a aplicação
 document.addEventListener('DOMContentLoaded', initialize);
