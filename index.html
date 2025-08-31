@@ -12,9 +12,22 @@
         <div class="status-bar">
             Status da Conexão: <span id="connection-status" class="disconnected">Desconectado</span>
         </div>
-        <!-- Botão para abrir o modal de configurações de URL -->
-        <button id="open-settings-btn" class="btn-open-settings">Configurações de Conexão</button>
-        <!-- NOVO: Botão de Conectar/Desconectar agora na página principal para acesso imediato -->
+
+        <!-- NOVO: Seção de Gerenciamento de Servidores -->
+        <div class="server-management">
+            <h2>Servidores WebSocket</h2>
+            <div class="input-group">
+                <label for="server-select">Servidor Ativo:</label>
+                <select id="server-select"></select>
+            </div>
+            <div class="server-actions">
+                <button id="add-server-btn" class="btn-add-server">Adicionar Novo</button>
+                <button id="edit-server-btn" class="btn-edit-server" disabled>Editar</button>
+                <button id="delete-server-btn" class="btn-delete-server" disabled>Excluir</button>
+            </div>
+        </div>
+
+        <!-- Botão de Conectar/Desconectar (permanece na página principal) -->
         <button id="toggle-connection-btn" class="btn-connect">Conectar</button>
 
         <div class="data-log">
@@ -26,21 +39,27 @@
         </div>
     </div>
 
-    <!-- Estrutura do Modal (agora dedicado SOMENTE às configurações da URL do WebSocket) -->
-    <div id="settings-modal" class="modal">
+    <!-- Estrutura do Modal (reutilizado para adicionar/editar servidores) -->
+    <div id="server-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <h2>Configurações de Conexão</h2>
+            <h2 id="modal-title">Adicionar Novo Servidor</h2>
             <div class="input-group">
-                <label for="websocket-url">URL do WebSocket:</label>
-                <input type="text" id="websocket-url" placeholder="Ex: ws://localhost:1880/ws/dashboard">
+                <label for="server-name-input">Nome do Servidor:</label>
+                <input type="text" id="server-name-input" placeholder="Ex: Servidor Local Node-RED">
             </div>
-            <button id="save-settings-btn" class="btn-save">Salvar Configurações</button>
-            <!-- REMOVIDO: O botão toggle-connection-btn não está mais aqui, pois foi movido para a página principal -->
+            <div class="input-group">
+                <label for="server-url-input">URL do WebSocket:</label>
+                <input type="text" id="server-url-input" placeholder="Ex: ws://localhost:1880/ws/dashboard">
+            </div>
+            <div class="modal-actions">
+                <button id="save-server-details-btn" class="btn-save">Salvar Servidor</button>
+                <button id="cancel-server-details-btn" class="btn-cancel">Cancelar</button>
+            </div>
         </div>
     </div>
 
-    <!-- Contêiner para mensagens de Toast, fornecendo feedback não intrusivo ao usuário -->
+    <!-- Contêiner para mensagens de Toast -->
     <div id="toast-container"></div>
 
     <script src="script.js"></script>
