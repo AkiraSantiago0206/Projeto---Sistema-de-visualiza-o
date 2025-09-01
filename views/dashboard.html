@@ -1,0 +1,41 @@
+<!-- views/dashboard.html -->
+<div class="container">
+    <h1>Monitoramento de Dados Node-RED</h1>
+    <div class="status-bar">
+        Status da Conexão: <span id="connection-status" class="disconnected">Desconectado</span>
+    </div>
+
+    <div class="server-management">
+        <h2>Servidores WebSocket</h2>
+        <div class="input-group">
+            <label for="server-select">Servidor Ativo:</label>
+            <select id="server-select"></select>
+        </div>
+        <div class="server-actions">
+            <button id="add-server-btn" class="btn-add-server">Adicionar Novo</button>
+            <button id="edit-server-btn" class="btn-edit-server" disabled>Editar</button>
+            <button id="delete-server-btn" class="btn-delete-server" disabled>Excluir</button>
+        </div>
+    </div>
+
+    <button id="toggle-connection-btn" class="btn-connect">Conectar</button>
+
+    <div class="data-log-header">
+        <h2>Log de Dados</h2>
+        <div class="search-group">
+            <input type="text" id="filter-input" placeholder="Filtrar por nome ou valor...">
+            <button id="search-btn" class="btn-search"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="export-group">
+            <select id="export-format-select">
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+            </select>
+            <button id="export-log-btn" class="btn-export-log">Exportar</button>
+        </div>
+        <div>
+            <button id="clear-log-btn" class="btn-clear-log">Limpar Log</button>
+        </div>
+    </div>
+    <div id="messages" class="data-log"></div>
+</div>

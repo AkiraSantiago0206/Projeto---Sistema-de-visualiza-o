@@ -1,0 +1,107 @@
+/* css/_server_management.css */
+
+/* Estilos para a seção de gerenciamento de servidores */
+.server-management {
+    background-color: #fdfdfd;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.server-management h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: none;
+    padding-bottom: 0;
+    color: #34495e;
+    text-align: center;
+    font-size: 1.8em;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95em;
+}
+
+.input-group input[type="text"],
+.input-group select {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    background-color: white;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input[type="text"]:focus,
+.input-group select:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 0 3px rgba(102, 175, 233, 0.2);
+    outline: none;
+}
+
+.server-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.server-actions button {
+    flex: 1;
+    padding: 12px 18px;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.server-actions button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-add-server {
+    background-color: #3498db;
+    color: white;
+}
+.btn-add-server:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.btn-edit-server {
+    background-color: #f39c12;
+    color: white;
+}
+.btn-edit-server:hover:not(:disabled) {
+    background-color: #e67e22;
+}
+
+.btn-delete-server {
+    background-color: #e74c3c;
+    color: white;
+}
+.btn-delete-server:hover:not(:disabled) {
+    background-color: #c0392b;
+}
+
+.server-actions button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}

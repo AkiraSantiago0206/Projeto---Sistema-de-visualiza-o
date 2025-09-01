@@ -2,67 +2,96 @@
 
 // Referências aos elementos DOM
 export const DOMElements = {
-    connectionStatus: document.getElementById('connection-status'),
-    messagesDiv: document.getElementById('messages'),
-    clearLogBtn: document.getElementById('clear-log-btn'),
-    exportLogBtn: document.getElementById('export-log-btn'),
-    exportFormatSelect: document.getElementById('export-format-select'), // Adicionado
-    filterInput: document.getElementById('filter-input'),
-    searchBtn: document.getElementById('search-btn'),
+    // Elementos globais que estão sempre presentes no index.html
+    mainContent: document.getElementById('main-content'), // NOVO: Área principal de conteúdo
     toastContainer: document.getElementById('toast-container'),
-    serverSelect: document.getElementById('server-select'),
-    addServerBtn: document.getElementById('add-server-btn'),
-    editServerBtn: document.getElementById('edit-server-btn'),
-    deleteServerBtn: document.getElementById('delete-server-btn'),
-    toggleConnectionBtn: document.getElementById('toggle-connection-btn'),
-    
-    // Modal de Adicionar/Editar
+    toggleSidebarBtn: document.getElementById('toggle-sidebar-btn'),
+    sidebar: document.getElementById('sidebar'),
+    closeSidebarBtn: document.getElementById('close-sidebar-btn'),
+    sidebarOverlay: document.getElementById('sidebar-overlay'),
+
+    // Modais (também globais e sempre presentes)
     serverModal: document.getElementById('server-modal'),
     modalTitle: document.getElementById('modal-title'),
     serverNameInput: document.getElementById('server-name-input'),
     serverUrlInput: document.getElementById('server-url-input'),
     saveServerDetailsBtn: document.getElementById('save-server-details-btn'),
     cancelServerDetailsBtn: document.getElementById('cancel-server-details-btn'),
-    
-    // Modal de Confirmação de Exclusão
     confirmDeleteModal: document.getElementById('confirm-delete-modal'),
     serverToDeleteName: document.getElementById('server-to-delete-name'),
     confirmDeleteBtn: document.getElementById('confirm-delete-btn'),
     cancelDeleteBtn: document.getElementById('cancel-delete-btn'),
-    
-    // Botões de fechar modais
     closeButtons: document.querySelectorAll('.close-button'),
+
+    // Elementos específicos do Dashboard (serão carregados dinamicamente)
+    // Inicialmente nulos, serão atualizados após o carregamento da vista 'dashboard'
+    connectionStatus: null,
+    messagesDiv: null,
+    clearLogBtn: null,
+    exportLogBtn: null,
+    exportFormatSelect: null,
+    filterInput: null,
+    searchBtn: null,
+    serverSelect: null,
+    addServerBtn: null,
+    editServerBtn: null,
+    deleteServerBtn: null,
+    toggleConnectionBtn: null,
 };
 
+// NOVA FUNÇÃO: Atualiza as referências dos elementos DOM específicos do dashboard
+export function updateDashboardDOMElements() {
+    DOMElements.connectionStatus = document.getElementById('connection-status');
+    DOMElements.messagesDiv = document.getElementById('messages');
+    DOMElements.clearLogBtn = document.getElementById('clear-log-btn');
+    DOMElements.exportLogBtn = document.getElementById('export-log-btn');
+    DOMElements.exportFormatSelect = document.getElementById('export-format-select');
+    DOMElements.filterInput = document.getElementById('filter-input');
+    DOMElements.searchBtn = document.getElementById('search-btn');
+    DOMElements.serverSelect = document.getElementById('server-select');
+    DOMElements.addServerBtn = document.getElementById('add-server-btn');
+    DOMElements.editServerBtn = document.getElementById('edit-server-btn');
+    DOMElements.deleteServerBtn = document.getElementById('delete-server-btn');
+    DOMElements.toggleConnectionBtn = document.getElementById('toggle-connection-btn');
+}
+
+// As funções existentes (updateConnectionStatus, updateButtonState, etc.)
+// precisarão de verificações para garantir que os elementos existam antes de tentar manipulá-los.
+
 export function updateConnectionStatus(status) {
-    DOMElements.connectionStatus.textContent = status;
-    let statusClass = 'disconnected';
-    if (status === 'Conectado') statusClass = 'connected';
-    if (status === 'Conectando...') statusClass = 'connecting';
-    if (status === 'Erro') statusClass = 'error';
-    DOMElements.connectionStatus.className = statusClass;
+    if (DOMElements.connectionStatus) { // Verifica se o elemento existe
+        DOMElements.connectionStatus.textContent = status;
+        let statusClass = 'disconnected';
+        if (status === 'Conectado') statusClass = 'connected';
+        if (status === 'Conectando...') statusClass = 'connecting';
+        if (status === 'Erro') statusClass = 'error';
+        DOMElements.connectionStatus.className = statusClass;
+    }
 }
 
 export function updateButtonState(connectionState, hasSelectedServer) {
-    if (connectionState === 'closed') {
-        DOMElements.toggleConnectionBtn.textContent = 'Conectar';
-        DOMElements.toggleConnectionBtn.className = 'btn-connect';
-        DOMElements.toggleConnectionBtn.disabled = !hasSelectedServer;
-    } else if (connectionState === 'open') {
-        DOMElements.toggleConnectionBtn.textContent = 'Desconectar';
-        DOMElements.toggleConnectionBtn.className = 'btn-disconnect';
-        DOMElements.toggleConnectionBtn.disabled = false;
-    } else if (connectionState === 'connecting') {
-        DOMElements.toggleConnectionBtn.textContent = 'Conectando...';
-        DOMElements.toggleConnectionBtn.className = 'btn-connect';
-        DOMElements.toggleConnectionBtn.disabled = true;
+    if (DOMElements.toggleConnectionBtn) { // Verifica se o elemento existe
+        if (connectionState === 'closed') {
+            DOMElements.toggleConnectionBtn.textContent = 'Conectar';
+            DOMElements.toggleConnectionBtn.className = 'btn-connect';
+            DOMElements.toggleConnectionBtn.disabled = !hasSelectedServer;
+        } else if (connectionState === 'open') {
+            DOMElements.toggleConnectionBtn.textContent = 'Desconectar';
+            DOMElements.toggleConnectionBtn.className = 'btn-disconnect';
+            DOMElements.toggleConnectionBtn.disabled = false;
+        } else if (connectionState === 'connecting') {
+            DOMElements.toggleConnectionBtn.textContent = 'Conectando...';
+            DOMElements.toggleConnectionBtn.className = 'btn-connect';
+            DOMElements.toggleConnectionBtn.disabled = true;
+        }
     }
-
-    DOMElements.editServerBtn.disabled = !hasSelectedServer;
-    DOMElements.deleteServerBtn.disabled = !hasSelectedServer;
+    if (DOMElements.editServerBtn) DOMElements.editServerBtn.disabled = !hasSelectedServer;
+    if (DOMElements.deleteServerBtn) DOMElements.deleteServerBtn.disabled = !hasSelectedServer;
 }
 
 export function addMessageToLog(message, className = '') {
+    if (!DOMElements.messagesDiv) return; // Verifica se o elemento existe
+
     const messageContainer = document.createElement('div');
     messageContainer.className = `message-entry ${className}`;
 
@@ -110,6 +139,7 @@ export function showToast(message, type) {
 }
 
 export function populateServerSelect(servers, activeServerId) {
+    if (!DOMElements.serverSelect) return; // Verifica se o elemento existe
     DOMElements.serverSelect.innerHTML = '';
     if (servers.length === 0) {
         const option = document.createElement('option');
@@ -156,6 +186,7 @@ export function hideAllModals() {
 }
 
 export function getLogData() {
+    if (!DOMElements.messagesDiv) return []; // Verifica se o elemento existe
     const logEntries = Array.from(DOMElements.messagesDiv.children);
     const logData = logEntries.map(entry => {
         if (entry.classList.contains('data-message')) {
@@ -179,6 +210,7 @@ export function getLogData() {
 }
 
 export function filterLog(searchText) {
+    if (!DOMElements.messagesDiv) return; // Verifica se o elemento existe
     const messages = DOMElements.messagesDiv.querySelectorAll('.message-entry');
     const lowerCaseSearchText = searchText.toLowerCase();
     
@@ -193,5 +225,53 @@ export function filterLog(searchText) {
                 message.style.display = 'none';
             }
         });
+    }
+}
+
+export function toggleSidebar(show) {
+    if (show) {
+        DOMElements.sidebar.classList.add('open');
+        DOMElements.sidebarOverlay.classList.add('active');
+    } else {
+        DOMElements.sidebar.classList.remove('open');
+        DOMElements.sidebarOverlay.classList.remove('active');
+    }
+}
+
+// NOVA FUNÇÃO: Carrega uma vista (página) no main-content
+export async function loadView(viewName) {
+    try {
+        const response = await fetch(`views/${viewName}.html`);
+        if (!response.ok) {
+            throw new Error(`Falha ao carregar a vista: ${response.statusText}`);
+        }
+        const html = await response.text();
+        DOMElements.mainContent.innerHTML = html;
+
+        // Após carregar uma vista, atualiza as referências dos elementos DOM específicos do dashboard
+        if (viewName === 'dashboard') {
+            updateDashboardDOMElements();
+        } else {
+            // Limpa as referências específicas do dashboard se não estiver na vista do dashboard
+            DOMElements.connectionStatus = null;
+            DOMElements.messagesDiv = null;
+            DOMElements.clearLogBtn = null;
+            DOMElements.exportLogBtn = null;
+            DOMElements.exportFormatSelect = null;
+            DOMElements.filterInput = null;
+            DOMElements.searchBtn = null;
+            DOMElements.serverSelect = null;
+            DOMElements.addServerBtn = null;
+            DOMElements.editServerBtn = null;
+            DOMElements.deleteServerBtn = null;
+            DOMElements.toggleConnectionBtn = null;
+        }
+        return true; // Indica sucesso
+    } catch (error) {
+        console.error('Erro ao carregar a vista:', error);
+        showToast(`Erro ao carregar a página: ${viewName}.`, 'error');
+        // Exibe uma mensagem de erro na área principal
+        DOMElements.mainContent.innerHTML = `<div class="container"><h1>Erro ao carregar a página</h1><p>${error.message}</p></div>`;
+        return false; // Indica falha
     }
 }

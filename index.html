@@ -8,47 +8,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Monitoramento de Dados Node-RED</h1>
-        <div class="status-bar">
-            Status da Conexão: <span id="connection-status" class="disconnected">Desconectado</span>
-        </div>
+    <!-- Botão para abrir a barra lateral (agora fixo na tela) -->
+    <button id="toggle-sidebar-btn" class="sidebar-toggle-btn">
+        <i class="fas fa-bars"></i>
+    </button>
 
-        <div class="server-management">
-            <h2>Servidores WebSocket</h2>
-            <div class="input-group">
-                <label for="server-select">Servidor Ativo:</label>
-                <select id="server-select"></select>
-            </div>
-            <div class="server-actions">
-                <button id="add-server-btn" class="btn-add-server">Adicionar Novo</button>
-                <button id="edit-server-btn" class="btn-edit-server" disabled>Editar</button>
-                <button id="delete-server-btn" class="btn-delete-server" disabled>Excluir</button>
-            </div>
-        </div>
-
-        <button id="toggle-connection-btn" class="btn-connect">Conectar</button>
-
-        <div class="data-log-header">
-            <h2>Log de Dados</h2>
-            <div class="search-group">
-                <input type="text" id="filter-input" placeholder="Filtrar por nome ou valor...">
-                <button id="search-btn" class="btn-search"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="export-group">
-                <select id="export-format-select">
-                    <option value="json">JSON</option>
-                    <option value="csv">CSV</option>
-                </select>
-                <button id="export-log-btn" class="btn-export-log">Exportar</button>
-            </div>
-            <div>
-                <button id="clear-log-btn" class="btn-clear-log">Limpar Log</button>
-            </div>
-        </div>
-        <div id="messages" class="data-log"></div>
+    <!-- Área principal onde as vistas (páginas) serão carregadas -->
+    <div id="main-content">
+        <!-- O conteúdo das vistas (home.html, dashboard.html, etc.) será carregado aqui pelo JavaScript -->
     </div>
 
+    <div id="toast-container"></div>
+
+    <!-- Overlay da barra lateral -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Barra Lateral -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>Navegação</h3>
+            <button id="close-sidebar-btn" class="close-sidebar-btn">&times;</button>
+        </div>
+        <ul class="sidebar-menu">
+            <!-- Links da sidebar com o atributo data-view para identificar a vista a ser carregada -->
+            <li><a href="#" data-view="home"><i class="fas fa-home"></i> Início</a></li>
+            <li><a href="#" data-view="dashboard"><i class="fas fa-chart-line"></i> Dashboard de Conexão</a></li>
+            <li><a href="#" data-view="settings"><i class="fas fa-cog"></i> Configurações</a></li>
+            <li><a href="#" data-view="about"><i class="fas fa-info-circle"></i> Sobre</a></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>&copy; 2023 Seu Dashboard</p>
+        </div>
+    </div>
+
+    <!-- Modais (permanecem no index.html pois são elementos globais da UI) -->
     <div id="server-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" data-modal="server-modal">&times;</span>
@@ -79,8 +73,6 @@
             </div>
         </div>
     </div>
-
-    <div id="toast-container"></div>
 
     <script type="module" src="js/main.js"></script>
 </body>

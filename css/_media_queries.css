@@ -1,0 +1,43 @@
+/* css/_media_queries.css */
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px; /* Sidebar um pouco menor em telas pequenas */
+        right: -250px;
+    }
+    .sidebar.open {
+        right: 0;
+    }
+    .sidebar-toggle-btn {
+        top: 15px;
+        left: 15px;
+        padding: 10px 12px;
+        font-size: 1em;
+    }
+    .container {
+        padding: 20px;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+    .container {
+        padding: 15px;
+    }
+    .sidebar {
+        width: 100%; /* Ocupa toda a largura em telas muito pequenas */
+        right: -100%;
+    }
+    .sidebar.open {
+        right: 0;
+    }
+    .sidebar-toggle-btn {
+        top: 10px;
+        left: 10px;
+    }
+}
